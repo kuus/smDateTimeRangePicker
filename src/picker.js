@@ -1460,9 +1460,9 @@ app.provider('picker', [picker]);
         };
     }
 
-    SMRangePickerCtrl.prototype.rangeSelected = function(range){
+    SMRangePickerCtrl.prototype.rangeSelected = function(range, data){
         var self = this;
-        self.onRangeSelect({range: range});
+        self.onRangeSelect({range: range, data: data});
         self.value = {startDate: range.startDateAsMoment, endDate: range.endDateAsMoment, __$toString: range.text};
     }
 
@@ -1752,7 +1752,7 @@ RangePickerCtrl.prototype.setNgModelValue = function(startDate, divider, endDate
 
     range.text = _ng_model_value;
 
-    self.rangeSelectCall({range: range});
+    self.rangeSelectCall({range: range, data: data});
 
     /*
     setTimeout(function()
