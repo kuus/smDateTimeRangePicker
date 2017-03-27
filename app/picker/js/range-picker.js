@@ -121,7 +121,7 @@ RangePickerCtrl.prototype.dateRangeSelected = function(){
     }else{
         self.showCustom=false;
     }
-    self.setNgModelValue(self.startDate, self.divider, self.endDate);
+    self.setNgModelValue(self.startDate, self.divider, self.endDate, self);
 }
 
 /* sets an empty value on dates. */
@@ -134,7 +134,7 @@ RangePickerCtrl.prototype.clearDateRange = function(){
     }else{
         self.showCustom=false;
     }
-    self.setNgModelValue('', self.divider, '');
+    self.setNgModelValue('', self.divider, '', self);
 }
 
 
@@ -163,7 +163,7 @@ RangePickerCtrl.prototype.endDateSelected = function(date){
     this.endDate = date;
     this.scope.$emit('range-picker:endDateSelected');
     if(this.closeOnSelect && this.mode==='date'){
-        this.setNgModelValue(this.startDate, this.divider, this.endDate);
+        this.setNgModelValue(this.startDate, this.divider, this.endDate, this);
     }else{
         this.setNextView();
     }
@@ -173,13 +173,13 @@ RangePickerCtrl.prototype.endTimeSelected = function(time){
     this.endDate.hour(time.hour()).minute(time.minute());
     this.scope.$emit('range-picker:endTimeSelected');
     if(this.closeOnSelect && this.mode==='date-time'){
-        this.setNgModelValue(this.startDate, this.divider, this.endDate);
+        this.setNgModelValue(this.startDate, this.divider, this.endDate, this);
     }
 }
 
 
 
-RangePickerCtrl.prototype.setNgModelValue = function(startDate, divider, endDate) {
+RangePickerCtrl.prototype.setNgModelValue = function(startDate, divider, endDate, data) {
     var self = this;
     var momentStartDate = startDate || null;
     var momentEndDate = endDate || null;
@@ -195,10 +195,10 @@ RangePickerCtrl.prototype.setNgModelValue = function(startDate, divider, endDate
         endDate = endDate.format(self.format) || '';
     }
 
-  var range = {startDate: startDate, endDate: endDate, startDateAsMoment: momentStartDate, endDateAsMoment: momentEndDate};
+  var range = {startDate: startDate, endDate: endDate, startDateAsMoment: momentStartDate, endDateAsMoment: momentEndDate, data: data};
 
     //var range = {startDate: startDate, endDate: endDate};
-    
+
     var _ng_model_value;
 
     //if no startDate && endDate, then empty the model.
@@ -213,9 +213,9 @@ RangePickerCtrl.prototype.setNgModelValue = function(startDate, divider, endDate
     }
 
     range.text = _ng_model_value;
-    
+
     self.rangeSelectCall({range: range});
-    
+
     /*
     setTimeout(function()
     {
@@ -223,7 +223,7 @@ RangePickerCtrl.prototype.setNgModelValue = function(startDate, divider, endDate
         self.ngModelCtrl.$render();
     }, 50);
     */
-    
+
     self.selectedTabIndex = 0;
     self.view ='DATE';
     self.scope.$emit('range-picker:close');
