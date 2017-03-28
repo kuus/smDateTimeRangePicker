@@ -8,7 +8,7 @@
 	<div  layout="column" class="pre-select"  role="button" ng-show="!vm.showCustom">
 		<md-button
 			 aria-label="{{list.label}}"
-			 ng-click="vm.setNgModelValue(list.startDate,vm.divider,list.endDate,list.data)"
+			 ng-click="vm.setNgModelValue(list.startDate,vm.divider,list.endDate,list)"
 			 ng-repeat="list in vm.rangeDefaultList">{{list.label}}
 		 </md-button>
 		<md-button aria-label="Custom Range"  ng-click="vm.showCustomView()">{{vm.customRangeLabel}}</md-button>

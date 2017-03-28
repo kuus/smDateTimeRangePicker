@@ -8,6 +8,7 @@ function smRangePicker (picker){
             divider: '@',
             weekStartDay :'@',
             customToHome: '@',
+            preferLabels:'@',
             closeOnSelect: '@',
             mode: '@',
             showCustom:'@',
@@ -195,24 +196,34 @@ RangePickerCtrl.prototype.setNgModelValue = function(startDate, divider, endDate
         endDate = endDate.format(self.format) || '';
     }
 
-  var range = {startDate: startDate, endDate: endDate, startDateAsMoment: momentStartDate, endDateAsMoment: momentEndDate, data: data};
+    var range = {startDate: startDate, endDate: endDate, startDateAsMoment: momentStartDate, endDateAsMoment: momentEndDate};
+
+    if (data && data.val) {
+        range.val = data.val;
+    }
 
     //var range = {startDate: startDate, endDate: endDate};
 
     var _ng_model_value;
 
+    if (data && data.val) {
+        _ng_model_value = data.val;
+    }
     //if no startDate && endDate, then empty the model.
-    if(!startDate && !endDate)
-    {
+    else if(!startDate && !endDate) {
         _ng_model_value = '';
-    }else
-    {
+    }
+    else {
         startDate = startDate || 'Any';
         endDate = endDate || 'Any';
         _ng_model_value = startDate + ' ' + divider + ' ' + endDate;
     }
 
-    range.text = _ng_model_value;
+    if (/*this.preferLabels && @@todo */data && data.label) {
+        range.text = data.label;
+    } else {
+        range.text = _ng_model_value;
+    }
 
     self.rangeSelectCall({range: range});
 
