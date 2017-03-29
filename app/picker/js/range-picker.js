@@ -206,11 +206,14 @@ RangePickerCtrl.prototype.setNgModelValue = function(startDate, divider, endDate
 
     var _ng_model_value;
 
-    if (data && data.val) {
+    if (/*this.preferLabels && @@todo */data && data.label) {
+        _ng_model_value = data.label;
+    }
+    else if (data && data.val) {
         _ng_model_value = data.val;
     }
     //if no startDate && endDate, then empty the model.
-    else if(!startDate && !endDate) {
+    else if (!startDate && !endDate) {
         _ng_model_value = '';
     }
     else {
@@ -219,11 +222,7 @@ RangePickerCtrl.prototype.setNgModelValue = function(startDate, divider, endDate
         _ng_model_value = startDate + ' ' + divider + ' ' + endDate;
     }
 
-    if (/*this.preferLabels && @@todo */data && data.label) {
-        range.text = data.label;
-    } else {
-        range.text = _ng_model_value;
-    }
+    range.text = _ng_model_value;
 
     self.rangeSelectCall({range: range});
 
